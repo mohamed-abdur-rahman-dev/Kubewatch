@@ -73,8 +73,20 @@ Desktop.ini
 .classpath
 .settings/
 
-# ── Claude Code (AI assistant session files) ─────────────────
+# ── Internal / AI workflow files — local only, never public ──
+internal-docs/
+CLAUDE.md
+ARCHITECTURE.md
+VIDEO_SCRIPT.md
+REPO_AUDIT.md
+MIGRATION_PLAN.md
+CLEANUP_LOG.md
+
+# ── AI tooling session files ──────────────────────────────────
 .claude/
+.cursor/
+.copilot/
+.aider*
 
 # ── Docker ───────────────────────────────────────────────────
 docker-compose.override.yml
