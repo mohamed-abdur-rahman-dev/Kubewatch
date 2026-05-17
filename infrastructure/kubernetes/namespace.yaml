@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: campus
+  labels:
+    team: platform
+    managed-by: ai-pod-observer

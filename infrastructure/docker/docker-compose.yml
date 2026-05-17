@@ -1,0 +1,63 @@
+# Three-service architecture:
+#   api        — FastAPI on 8000, reads k8s cluster
+#   ai-service — FastAPI on 8001, runs LLM inference via Ollama
+#   dashboard  — Vite/React on 3000, browser UI
+#
+# Ollama runs on the HOST machine (not in Docker) so it can use the GPU/CPU
+# directly. The containers reach it via host.docker.internal.
+
+services:
+
+  api:
+    build:
+      context: ../../apps/api
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      # Share host kubeconfig so the API service can reach Minikube
+      - ~/.kube:/root/.kube:ro
+      - ~/.minikube:/root/.minikube:ro
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - LOG_LEVEL=info
+      - COLLECT_INTERVAL=15
+      - POD_CACHE_TTL=10
+      - AI_SERVICE_URL=http://ai-service:8001
+      - INSIGHT_CACHE_TTL=20
+    depends_on:
+      - ai-service
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  ai-service:
+    build:
+      context: ../../apps/ai-service
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8001
+      - LOG_LEVEL=info
+      # Ollama on host machine — reachable via host.docker.internal
+      - OLLAMA_HOST=http://host.docker.internal:11434
+      - OLLAMA_MODEL=llama3.2:1b
+      - OLLAMA_TIMEOUT=90
+      # Optional: set OPENAI_API_KEY to enable cloud inference
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - OPENAI_MODEL=gpt-4o-mini
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  dashboard:
+    build:
+      context: ../../apps/dashboard
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:8000
+    ports:
+      - "3000:80"
+    depends_on:
+      - api

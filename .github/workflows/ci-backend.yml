@@ -1,0 +1,36 @@
+name: CI — API
+
+on:
+  push:
+    paths:
+      - "apps/api/**"
+      - ".github/workflows/ci-backend.yml"
+  pull_request:
+    paths:
+      - "apps/api/**"
+
+defaults:
+  run:
+    working-directory: apps/api
+
+jobs:
+  test:
+    name: Unit + Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: apps/api/requirements-dev.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Run unit tests
+        run: pytest tests/unit/ -v
+
+      - name: Run integration tests
+        run: pytest tests/integration/ -v

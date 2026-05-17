@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+backend/venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+dist/
+build/
+
+# Node / React
+node_modules/
+apps/dashboard/dist/
+apps/dashboard/.vite/
+frontend/dist/
+*.local
+
+# Environment files — NEVER commit secrets
+.env
+**/.env
+apps/api/.env
+apps/ai-service/.env
+apps/dashboard/.env
+backend/.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Docker
+docker-compose.override.yml
+
+# Kubernetes — kubeconfig is personal, never shared
+.kube/
+*.kubeconfig

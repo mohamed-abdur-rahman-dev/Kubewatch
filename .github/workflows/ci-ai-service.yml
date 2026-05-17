@@ -1,0 +1,33 @@
+name: CI — AI Service
+
+on:
+  push:
+    paths:
+      - "apps/ai-service/**"
+      - ".github/workflows/ci-ai-service.yml"
+  pull_request:
+    paths:
+      - "apps/ai-service/**"
+
+defaults:
+  run:
+    working-directory: apps/ai-service
+
+jobs:
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: apps/ai-service/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest==8.2.0
+
+      - name: Run tests
+        run: pytest tests/ -v

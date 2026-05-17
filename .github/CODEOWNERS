@@ -1,0 +1,18 @@
+# CODEOWNERS — auto-assigns reviewers by path.
+# Syntax: <pattern> <@github-user-or-team>
+
+# Default owner for everything
+*                              @dev-iqtechmax
+
+# Frontend — dashboard team
+apps/dashboard/                @dev-iqtechmax
+
+# Backend API
+apps/api/                      @dev-iqtechmax
+
+# AI service — LLM integration
+apps/ai-service/               @dev-iqtechmax
+
+# Infrastructure — devops review required
+infrastructure/                @dev-iqtechmax
+.github/                       @dev-iqtechmax

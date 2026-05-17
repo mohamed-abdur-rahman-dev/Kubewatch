@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: attendance-service
+  namespace: campus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: attendance-service
+  template:
+    metadata:
+      labels:
+        app: attendance-service
+        tier: backend
+        depends-on: auth-service
+    spec:
+      containers:
+        - name: attendance-service
+          image: python:3.11-slim
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "128Mi"
+            limits:
+              cpu: "400m"
+              memory: "256Mi"
+          command: ["python", "-c"]
+          args:
+            - |
+              import time, random
+              records = []
+              while True:
+                  records.append({'student': random.randint(1, 1000), 'time': time.time()})
+                  if len(records) > 10000:
+                      records = []
+                  time.sleep(0.05)
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: attendance-service
+  namespace: campus
+spec:
+  selector:
+    app: attendance-service
+  ports:
+    - port: 8003
+      targetPort: 8000
