@@ -1,44 +1,101 @@
-# Python
+# ============================================================
+# .gitignore — AI Pod Observer / Kubewatch
+# Covers: Python, Node.js, Docker, VS Code, OS, AI/ML caches
+# ============================================================
+
+# ── Python ───────────────────────────────────────────────────
 __pycache__/
 **/__pycache__/
 *.py[cod]
 *.pyo
+*.pyd
 .venv/
 venv/
-backend/venv/
+env/
 *.egg-info/
+.eggs/
 .pytest_cache/
 .mypy_cache/
+.ruff_cache/
+.coverage
+coverage/
+htmlcov/
+.tox/
 dist/
 build/
+*.so
 
-# Node / React
+# ── Node / React / Vite ──────────────────────────────────────
 node_modules/
 apps/dashboard/dist/
 apps/dashboard/.vite/
-frontend/dist/
+apps/dashboard/coverage/
 *.local
+.parcelcache/
+.next/
+.nuxt/
+.svelte-kit/
 
-# Environment files — NEVER commit secrets
+# ── Environment files — NEVER commit secrets ─────────────────
 .env
 **/.env
 apps/api/.env
 apps/ai-service/.env
 apps/dashboard/.env
-backend/.env
 
-# OS
+# ── Logs ─────────────────────────────────────────────────────
+*.log
+logs/
+*.log.*
+pip-log.txt
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ── OS-generated ─────────────────────────────────────────────
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+Desktop.ini
 
-# IDE
+# ── IDE / editor ─────────────────────────────────────────────
 .vscode/
 .idea/
 *.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
 
-# Docker
+# ── Claude Code (AI assistant session files) ─────────────────
+.claude/
+
+# ── Docker ───────────────────────────────────────────────────
 docker-compose.override.yml
 
-# Kubernetes — kubeconfig is personal, never shared
+# ── Kubernetes — kubeconfig is personal, never shared ────────
 .kube/
 *.kubeconfig
+
+# ── AI / ML caches ───────────────────────────────────────────
+.ollama/
+*.gguf
+*.bin
+models/
+huggingface/
+.cache/huggingface/
+
+# ── Temporary / misc ─────────────────────────────────────────
+tmp/
+temp/
+.tmp/
+*.bak
+*.orig
+*.rej
+*.patch
